@@ -12,7 +12,7 @@ california: shapefiles renderAll.js build/config/tiles.json
 shapefiles: shapefiles/114_congress shapefiles/usa_states shapefiles/countries
 
 clean:
-	rm -r build/config
+	rm -rf build/*
 
 shapefiles/114_congress:
 	mkdir -p shapefiles/114_congress

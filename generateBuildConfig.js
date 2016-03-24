@@ -8,12 +8,9 @@ var config = JSON.parse(fs.readFileSync('config/maps.json'));
 var tiles = [];
 
 Object.keys(config).forEach(function(map) {
-  var buildConfigDir = "build/config/" + map;
+  var buildConfigDir = "build/" + map;
   console.log("Generating config " + buildConfigDir)
   if (!fs.existsSync(buildConfigDir)) {
-    if (!fs.existsSync("build/config")) {
-      fs.mkdirSync("build/config")
-    }
     fs.mkdirSync(buildConfigDir)
   }
 
@@ -43,18 +40,18 @@ Object.keys(config).forEach(function(map) {
       renderAttributes.push(datum[i])
     });
 
-    var renderDirectory = buildConfigDir + "/" + renderAttributes.join("-")
-    if (!fs.existsSync(renderDirectory)) {
-      fs.mkdirSync(renderDirectory)
-    }
-
-    fs.writeFileSync(
-      renderDirectory + '/stylesheet.xml',
+    var tileName = renderAttributes.join("-")
+    var xmlPath = buildConfigDir + "/" + tileName + '.xml';
+    fs.writeFileSync(xmlPath,
       swig.renderFile('config/' + map + '/stylesheet.xml.swig', datum)
     )
 
-    tiles.push({ configDir: renderDirectory, extent: feature.extent() });
+    tiles.push({
+      name: tileName,
+      configDir: buildConfigDir,
+      extent: feature.extent()
+    });
   }
 });
 
-fs.writeFileSync('build/config/tiles.json', JSON.stringify(tiles))
+fs.writeFileSync('build/tiles.json', JSON.stringify(tiles))
