@@ -1,9 +1,18 @@
-all: shapefiles renderMap.js stylesheet.xml
-	node renderMap.js
+all: shapefiles renderAll.js build/config/tiles.json
+	node renderAll.js
+
+build/config/tiles.json: generateBuildConfig.js config/**/stylesheet.xml.swig config/maps.json
+	node generateBuildConfig.js
+
+california: shapefiles renderAll.js build/config/tiles.json
+	node renderAll.js /06
 
 # TODO: There probably is a better way
 .PHONY: shapefiles
 shapefiles: shapefiles/114_congress shapefiles/usa_states shapefiles/countries
+
+clean:
+	rm -r build/config
 
 shapefiles/114_congress:
 	mkdir -p shapefiles/114_congress

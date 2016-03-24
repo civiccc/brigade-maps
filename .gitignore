@@ -1,2 +1,3 @@
 shapefiles/*
 node_modules
+build/*

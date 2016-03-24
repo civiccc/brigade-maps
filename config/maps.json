@@ -1,0 +1,13 @@
+{
+  "114_congress": {
+    "shapefile": "shapefiles/114_congress/cgd114p010g.shp",
+    "render_each": ["STATE_FIPS", "CONG_DIST"]
+  },
+  "usa_states": {
+    "shapefile": "shapefiles/usa_states/statesp010g.shp",
+    "render_each": ["STATE_FIPS"],
+    "skip": {
+      "TYPE": "Water"
+    }
+  }
+}

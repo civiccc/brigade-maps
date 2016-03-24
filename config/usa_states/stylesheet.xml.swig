@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Map background-color="steelblue">
-
+<Map background-color="#d3ddff">
   <Style name="countries">
     <Rule>
       <PolygonSymbolizer fill="#efefef" />
@@ -22,29 +21,17 @@
       <PolygonSymbolizer fill="white" />
       <LineSymbolizer stroke="#ccc" stroke-width="3" />
     </Rule>
+
+    <Rule>
+      <Filter>[STATE_FIPS]='{{STATE_FIPS}}'</Filter>
+      <PolygonSymbolizer fill="#00f" />
+    </Rule>
   </Style>
 
   <Layer name="usa_states">
     <StyleName>usa_states</StyleName>
     <Datasource>
       <Parameter name="file">shapefiles/usa_states/statesp010g.shp</Parameter>
-      <Parameter name="encoding">iso-8859-1</Parameter>
-      <Parameter name="type">shape</Parameter>
-    </Datasource>
-  </Layer>
-
-  <Style name="usa_congressional_districts">
-    <Rule>
-      <Filter>[STATE_FIPS]='01' and [CONG_DIST]='01'</Filter>
-      <PolygonSymbolizer fill="#00f" />
-    </Rule>
-  </Style>
-
-  <Layer name="usa_congressional_districts" status="on">
-    <StyleName>usa_congressional_districts</StyleName>
-
-    <Datasource>
-      <Parameter name="file">shapefiles/114_congress/cgd114p010g.shp</Parameter>
       <Parameter name="encoding">iso-8859-1</Parameter>
       <Parameter name="type">shape</Parameter>
     </Datasource>
