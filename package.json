@@ -1,0 +1,12 @@
+{
+  "name": "brigade-maps",
+  "version": "0.0.0",
+  "description": "map renderer for brigade maps",
+  "dependencies": {
+    "mapnik": "^3.5.4",
+    "swig": "^1.4.2"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "MIT"
+}
