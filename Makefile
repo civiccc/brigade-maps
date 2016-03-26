@@ -2,6 +2,7 @@ all: shapefiles renderAll.js build/config/tiles.json
 	node renderAll.js
 
 build/config/tiles.json: generateBuildConfig.js config/**/stylesheet.xml.swig config/maps.json
+	mkdir -p build/config
 	node generateBuildConfig.js
 
 california: shapefiles renderAll.js build/config/tiles.json
