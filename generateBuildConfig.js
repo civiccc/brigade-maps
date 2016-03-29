@@ -1,8 +1,29 @@
 var mapnik = require('mapnik')
 var fs = require('fs');
 var swig = require('swig');
+var path = require('path');
+var parse = require('csv-parse/lib/sync')
 
 mapnik.register_default_input_plugins();
+
+var getTileOCDID = function(renderAttributes, mapName) {
+  var mappingPath = path.join('config', mapName, 'ocdid_mapping.csv')
+  if (!fs.existsSync(mappingPath)) {
+    return null
+  }
+
+  // TODO: make this not reload the file every time:
+  var rows = parse(fs.readFileSync(mappingPath), { comment: '#' })
+
+  for (i in rows) {
+    var row = rows[i]
+    if (row[0] == renderAttributes[0] && row[1] == renderAttributes[1]) {
+      return row[2]
+    }
+  }
+
+  return null;
+}
 
 var config = JSON.parse(fs.readFileSync('config/maps.json'));
 var tiles = [];
@@ -40,6 +61,7 @@ Object.keys(config).forEach(function(map) {
       renderAttributes.push(datum[i])
     });
 
+    var ocdid = getTileOCDID(renderAttributes, map);
     var tileName = renderAttributes.join("-")
     var xmlPath = buildConfigDir + "/" + tileName + '.xml';
     fs.writeFileSync(xmlPath,
@@ -47,8 +69,8 @@ Object.keys(config).forEach(function(map) {
     )
 
     tiles.push({
-      name: tileName,
-      configDir: buildConfigDir,
+      xmlPath: xmlPath,
+      ocdid: ocdid,
       extent: feature.extent()
     });
   }

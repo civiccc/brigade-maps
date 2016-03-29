@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "map renderer for brigade maps",
   "dependencies": {
+    "csv-parse": "^1.0.2",
     "mapnik": "^3.5.4",
     "swig": "^1.4.2"
   },

@@ -1,18 +1,32 @@
 var mapnik = require('mapnik');
 var fs = require('fs');
 var swig  = require('swig');
-
-var filterTile = process.argv[2];
+var path = require('path');
 
 // register fonts and datasource plugins
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
 
+var moveToOCDID = function(tilePath, ocdid) {
+  var buildPath = 'build/'
+
+  for (part of ocdid.split('/')) {
+    buildPath = path.join(buildPath, part)
+    if (!fs.existsSync(buildPath)) {
+      fs.mkdirSync(buildPath)
+    }
+  }
+
+  // TODO: support multiple variants
+  fs.renameSync(tilePath, path.join(buildPath, 'map.png'))
+}
+
 var renderTile = function(tile) {
-  console.log("Rendering " + tile.name)
+  console.log("Rendering " + tile.xmlPath)
 
   var map = new mapnik.Map(512, 512);
-  var xmlPath = tile.configDir + '/' + tile.name + '.xml'
+  var xmlPath = tile.xmlPath;
+  var outPath = path.normalize(path.join(xmlPath, '..', path.basename(xmlPath, '.xml') + '.png'))
   map.fromStringSync(fs.readFileSync(xmlPath).toString())
 
   // add a 10% margin around the district:
@@ -25,15 +39,23 @@ var renderTile = function(tile) {
   extent[3] += ydiff * 0.1
 
   map.zoomToBox(extent[0], extent[1], extent[2], extent[3]);
-  map.renderFileSync(tile.configDir + '/' + tile.name + '.png')
-  map.clear()
-}
+  map.renderFileSync(outPath)
 
-var tiles = JSON.parse(fs.readFileSync('build/tiles.json'))
-tiles.forEach(function(tile) {
-  if (filterTile && tile.name.indexOf(filterTile) === -1) {
-    return
+  if (tile.ocdid) {
+    moveToOCDID(outPath, tile.ocdid)
   }
 
-  renderTile(tile)
-});
+  map.clear()
+}
+exports.renderTile = renderTile
+
+exports.renderAll = function(filterTile) {
+  var tiles = JSON.parse(fs.readFileSync('build/tiles.json'))
+  tiles.forEach(function(tile) {
+    if (filterTile && tile.xmlPath.indexOf(filterTile) === -1) {
+      return
+    }
+
+    renderTile(tile)
+  });
+}

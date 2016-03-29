@@ -1,11 +1,18 @@
-all: shapefiles renderAll.js build/config/tiles.json
-	node renderAll.js
+all: shapefiles renderAll.js build/tiles.json
+	node bin/renderAll.js
 
-build/config/tiles.json: generateBuildConfig.js config/**/stylesheet.xml.swig config/maps.json
-	mkdir -p build/config
+# data/ocdid-country-us.csv:
+# 	wget -O data/ocdid-country-us.csv \
+# 		https://raw.githubusercontent.com/opencivicdata/ocd-division-ids/master/identifiers/country-us.csv
+
+build/tiles.json: generateBuildConfig.js config/**/stylesheet.xml.swig config/**/ocdid_mapping.csv config/maps.json
+	mkdir -p build
 	node generateBuildConfig.js
 
-california: shapefiles renderAll.js build/config/tiles.json
+config/114_congress/ocdid_mapping.csv: config/114_congress/generateOcdidMapping.js data/fips.csv
+	node config/114_congress/generateOcdidMapping.js > config/114_congress/ocdid_mapping.csv
+
+california: shapefiles renderAll.js build/tiles.json
 	node renderAll.js /06
 
 # TODO: There probably is a better way
