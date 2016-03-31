@@ -2,6 +2,7 @@
 <Map background-color="#d3ddff">
   <Style name="countries">
     <Rule>
+      <Filter>not [ISO_A2]='US'</Filter>
       <PolygonSymbolizer fill="#efefef" />
       <LineSymbolizer stroke="#ccc" stroke-width="1" />
     </Rule>
@@ -17,6 +18,11 @@
   </Layer>
 
   <Style name="usa_states">
+    <Rule>
+      <PolygonSymbolizer fill="#efefef" />
+      <LineSymbolizer stroke="#ccc" stroke-width="1" />
+    </Rule>
+
     <Rule>
       <Filter>[STATE_FIPS]='{{STATE_FIPS}}'</Filter>
       <LineSymbolizer stroke="#ccc" stroke-width="5" />
