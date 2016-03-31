@@ -13,7 +13,7 @@ config/114_congress/ocdid_mapping.csv: config/114_congress/generateOcdidMapping.
 	node config/114_congress/generateOcdidMapping.js > config/114_congress/ocdid_mapping.csv
 
 california: shapefiles renderAll.js build/tiles.json
-	node renderAll.js /06
+	node bin/renderAll.js /06
 
 # TODO: There probably is a better way
 .PHONY: shapefiles
