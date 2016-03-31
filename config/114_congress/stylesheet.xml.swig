@@ -3,7 +3,7 @@
   <Style name="countries">
     <Rule>
       <Filter>not [ISO_A2]='US'</Filter>
-      <PolygonSymbolizer fill="#efefef" />
+      <PolygonSymbolizer fill="#e3e3e3" />
       <LineSymbolizer stroke="#ccc" stroke-width="1" />
     </Rule>
   </Style>
