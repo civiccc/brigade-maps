@@ -15,10 +15,11 @@ var getTileOCDID = function(renderAttributes, mapName) {
   // TODO: make this not reload the file every time:
   var rows = parse(fs.readFileSync(mappingPath), { comment: '#' })
 
-  for (i in rows) {
-    var row = rows[i]
-    if (row[0] == renderAttributes[0] && row[1] == renderAttributes[1]) {
-      return row[2]
+  for (row of rows) {
+    // check for prefix match
+    if (renderAttributes.every( (v,i) => row[i] == v)) {
+      // ocdid expected to be in last column
+      return row[row.length - 1];
     }
   }
 
