@@ -3,8 +3,8 @@
   <Style name="countries">
     <Rule>
       <Filter>not [ISO_A2]='US'</Filter>
-      <PolygonSymbolizer fill="#e3e3e3" />
-      <LineSymbolizer stroke="#ccc" stroke-width="1" />
+      <PolygonSymbolizer fill="#ebebeb" />
+      <LineSymbolizer stroke="#fff" stroke-width="4" />
     </Rule>
   </Style>
 
@@ -17,42 +17,20 @@
     </Datasource>
   </Layer>
 
-  <Style name="usa_states">
-    <Rule>
-      <PolygonSymbolizer fill="#efefef" />
-      <LineSymbolizer stroke="#ccc" stroke-width="1" />
-    </Rule>
-
-    <Rule>
-      <Filter>[STATE_FIPS]='{{STATE_FIPS}}'</Filter>
-      <LineSymbolizer stroke="#ccc" stroke-width="5" />
-      <PolygonSymbolizer fill="#fff" />
-    </Rule>
-
-    <Rule>
-      <Filter>[TYPE]='Water'</Filter>
-      <PolygonSymbolizer fill="#d3ddff"/>
-    </Rule>
-  </Style>
-
-  <Layer name="usa_states">
-    <StyleName>usa_states</StyleName>
-    <Datasource>
-      <Parameter name="file">shapefiles/usa_states/statesp010g.shp</Parameter>
-      <Parameter name="encoding">iso-8859-1</Parameter>
-      <Parameter name="type">shape</Parameter>
-    </Datasource>
-  </Layer>
-
   <Style name="usa_congressional_districts">
     <Rule>
-      <Filter>[STATE_FIPS]='{{STATE_FIPS}}' and [CONG_DIST]='{{CONG_DIST}}'</Filter>
-      <PolygonSymbolizer fill="#9221c7" />
+      <PolygonSymbolizer fill="#ebebeb" />
     </Rule>
 
     <Rule>
-      <LineSymbolizer stroke="#000" stroke-width="1" stroke-opacity="0.1" />
+      <Filter>[STATE_FIPS]='{{STATE_FIPS}}' and [CONG_DIST]='{{CONG_DIST}}'</Filter>
+      <PolygonSymbolizer fill="#FFAF50" />
     </Rule>
+
+    <Rule>
+      <LineSymbolizer stroke="#fff" stroke-width="4" />
+    </Rule>
+
   </Style>
 
   <Layer name="usa_congressional_districts" status="on">
