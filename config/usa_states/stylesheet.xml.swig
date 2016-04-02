@@ -2,8 +2,9 @@
 <Map background-color="#d3ddff">
   <Style name="countries">
     <Rule>
-      <PolygonSymbolizer fill="#efefef" />
-      <LineSymbolizer stroke="#ccc" stroke-width="1" />
+      <Filter>not [ISO_A2]='US'</Filter>
+      <PolygonSymbolizer fill="#ebebeb" />
+      <LineSymbolizer stroke="#fff" stroke-width="4" />
     </Rule>
   </Style>
 
@@ -18,13 +19,13 @@
 
   <Style name="usa_states">
     <Rule>
-      <PolygonSymbolizer fill="white" />
-      <LineSymbolizer stroke="#ccc" stroke-width="3" />
+      <PolygonSymbolizer fill="#ebebeb" />
+      <LineSymbolizer stroke="#fff" stroke-width="4" />
     </Rule>
 
     <Rule>
       <Filter>[STATE_FIPS]='{{STATE_FIPS}}'</Filter>
-      <PolygonSymbolizer fill="#00f" />
+      <PolygonSymbolizer fill="#ffaf50" />
     </Rule>
   </Style>
 
