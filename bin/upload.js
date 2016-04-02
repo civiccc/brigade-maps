@@ -5,15 +5,15 @@ var path = require('path');
 var tiles = JSON.parse(fs.readFileSync('build/tiles.json'));
 
 tiles.forEach(function(tile) {
-  var tilePath = path.join('build', tile.ocdid, 'map.png');
-  console.log('uploading ' + tile.ocdid);
+  var tilePath = path.join('build', tile.ocdid, tile.level + '.png');
+  console.log('uploading ' + tile.ocdid + '/' + tile.level);
 
-  var q = cloudinary.uploader.upload(
+  cloudinary.uploader.upload(
     tilePath,
-    function(result) { console.log('uploaded ' + tile.ocdid) },
+    function(result) {},
     {
-      public_id: tile.ocdid + '/map',
-      tags: ['district']
+      public_id: tile.ocdid + '/' + tile.level,
+      tags: ['district', 'district-' + tile.level]
     }
   );
 });
