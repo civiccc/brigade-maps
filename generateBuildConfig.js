@@ -2,31 +2,58 @@ var mapnik = require('mapnik')
 var fs = require('fs');
 var swig = require('swig');
 var path = require('path');
-var parse = require('csv-parse/lib/sync')
+var parse = require('csv-parse/lib/sync');
+var glob = require('glob');
 
 mapnik.register_default_input_plugins();
 
-var getTileOCDID = function(renderAttributes, mapName) {
+
+// Globals
+// map configuration
+var config = JSON.parse(fs.readFileSync('config/maps.json'));
+// ocdids, indexed for fast lookup
+var ocdidmaps = {}
+
+var ocdIdKey = function(attributes) {
+  return attributes.join('.')
+}
+
+var generateOcdIdMaps = function(mapName, config) {
   var mappingPath = path.join('config', mapName, 'ocdid_mapping.csv')
   if (!fs.existsSync(mappingPath)) {
     return null
   }
 
-  // TODO: make this not reload the file every time:
+  ocdidmaps[mapName] = {}
+
   var rows = parse(fs.readFileSync(mappingPath), { comment: '#' })
-
   for (row of rows) {
-    // check for prefix match
-    if (renderAttributes.every( (v,i) => row[i] == v)) {
-      // ocdid expected to be in last column
-      return row[row.length - 1];
-    }
+    key = ocdIdKey(row.slice(0, config.render_each.length))
+    ocdidmaps[mapName][key] = row[row.length - 1]
   }
+}
 
+var getTileOCDID = function(renderAttributes, mapName) {
+  if (mapName in ocdidmaps) {
+    return ocdidmaps[mapName][ocdIdKey(renderAttributes)]
+  }
   return null;
 }
 
-var config = JSON.parse(fs.readFileSync('config/maps.json'));
+var shouldSkip = function(config, feature) {
+  if (config['skip']) {
+    var datum = feature.attributes();
+
+    for (attr of Object.keys(config['skip'])) {
+      if (datum[attr] == config['skip'][attr]) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+// output collection
 var tiles = [];
 
 Object.keys(config).forEach(function(map) {
@@ -36,54 +63,51 @@ Object.keys(config).forEach(function(map) {
     fs.mkdirSync(buildConfigDir)
   }
 
-  var shapefile = config[map]['shapefile']
-  var featureset = new mapnik.Datasource({ type: 'shape', file: shapefile }).featureset();
-  var feature;
+  generateOcdIdMaps(map, config[map])
 
-  while (feature = featureset.next()) {
-    var datum = feature.attributes()
-    var renderAttributes = []
-    var skipRender = false
+  var shapefiles = glob.sync(config[map]['shapefile']);
+  for (shapefile of shapefiles) {
+    var featureset = new mapnik.Datasource({ type: 'shape', file: shapefile }).featureset();
+    var feature;
 
-    if (config[map]['skip']) {
-      var skipAttributes = Object.keys(config[map]['skip'])
-      for (i in skipAttributes) {
-        if (datum[skipAttributes[i]] == config[map]['skip'][skipAttributes[i]]) {
-          skipRender = true
-        }
+    while (feature = featureset.next()) {
+
+      if (shouldSkip(config[map], feature)) {
+        continue;
       }
-    }
 
-    if (skipRender) {
-      continue
-    }
+      var datum = feature.attributes()
+      var renderAttributes = []
 
-    config[map]['render_each'].forEach(function(i) {
-      renderAttributes.push(datum[i])
-    });
+      datum.shapefile = shapefile;
 
-    var ocdid = getTileOCDID(renderAttributes, map);
-    var tileName = renderAttributes.join("-")
-
-    for (level of config[map]['levels']) {
-      var xmlPath = buildConfigDir + "/" + tileName + '_' + level + '.xml';
-
-      datum.highlightColor = {
-        federal: '#ffaf50',
-        state: '#0196b4',
-        local: '#3dc489'
-      }[level]
-
-      fs.writeFileSync(xmlPath,
-        swig.renderFile('config/' + map + '/stylesheet.xml.swig', datum)
-      )
-
-      tiles.push({
-        xmlPath: xmlPath,
-        ocdid: ocdid,
-        level: level,
-        extent: feature.extent()
+      config[map]['render_each'].forEach(function(i) {
+        renderAttributes.push(datum[i])
       });
+
+      var ocdid = getTileOCDID(renderAttributes, map, config[map]);
+      var tileName = renderAttributes.join("-")
+
+      for (level of config[map]['levels']) {
+        var xmlPath = buildConfigDir + "/" + tileName + '_' + level + '.xml';
+
+        datum.highlightColor = {
+          federal: '#ffaf50',
+          state: '#0196b4',
+          local: '#3dc489'
+        }[level]
+
+        fs.writeFileSync(xmlPath,
+          swig.renderFile('config/' + map + '/stylesheet.xml.swig', datum)
+        )
+
+        tiles.push({
+          xmlPath: xmlPath,
+          ocdid: ocdid,
+          level: level,
+          extent: feature.extent()
+        });
+      }
     }
   }
 });

@@ -17,7 +17,7 @@ california: shapefiles renderAll.js build/tiles.json
 
 # TODO: There probably is a better way
 .PHONY: shapefiles
-shapefiles: shapefiles/114_congress shapefiles/usa_states shapefiles/countries
+shapefiles: shapefiles/114_congress shapefiles/usa_states shapefiles/countries shapefiles/sldl
 
 clean:
 	rm -rf build/*
@@ -39,3 +39,21 @@ shapefiles/countries:
 	wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_0_countries.zip && \
 	unzip ne_10m_admin_0_countries.zip && \
 	rm ne_10m_admin_0_countries.zip
+
+shapefiles/sldl:
+	# This takes several minutes; you may be better off downloading with a real
+	# ftp client
+	mkdir -p shapefiles/sldl
+	cd shapefiles/sldl && \
+	wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDL && \
+	unzip ./\*.zip && \
+	rm ./*.zip
+
+shapefiles/sldu:
+	# This takes several minutes; you may be better off downloading with a real
+	# ftp client
+	mkdir -p shapefiles/sldu
+	cd shapefiles/sldu && \
+	wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDU && \
+	unzip ./\*.zip && \
+	rm ./*.zip
