@@ -17,7 +17,7 @@ california: shapefiles renderAll.js build/tiles.json
 
 # TODO: There probably is a better way
 .PHONY: shapefiles
-shapefiles: shapefiles/114_congress shapefiles/usa_states shapefiles/countries shapefiles/sldl
+shapefiles: shapefiles/114_congress shapefiles/usa_states shapefiles/countries shapefiles/sldl shapefiles/sldu
 
 clean:
 	rm -rf build/*

@@ -16,5 +16,10 @@
     "shapefile": "shapefiles/sldl/*.shp",
     "render_each": ["GEOID"],
     "levels": ["state"]
+  },
+  "sldu": {
+    "shapefile": "shapefiles/sldu/*.shp",
+    "render_each": ["GEOID"],
+    "levels": ["state"]
   }
 }
