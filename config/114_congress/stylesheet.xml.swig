@@ -24,7 +24,7 @@
 
     <Rule>
       <Filter>[STATE_FIPS]='{{STATE_FIPS}}' and [CONG_DIST]='{{CONG_DIST}}'</Filter>
-      <PolygonSymbolizer fill="#FFAF50" />
+      <PolygonSymbolizer fill="{{highlightColor}}" />
     </Rule>
 
     <Rule>

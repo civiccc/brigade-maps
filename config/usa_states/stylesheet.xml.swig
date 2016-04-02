@@ -25,7 +25,7 @@
 
     <Rule>
       <Filter>[STATE_FIPS]='{{STATE_FIPS}}'</Filter>
-      <PolygonSymbolizer fill="#ffaf50" />
+      <PolygonSymbolizer fill="{{highlightColor}}" />
     </Rule>
   </Style>
 

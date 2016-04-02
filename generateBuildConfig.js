@@ -64,16 +64,27 @@ Object.keys(config).forEach(function(map) {
 
     var ocdid = getTileOCDID(renderAttributes, map);
     var tileName = renderAttributes.join("-")
-    var xmlPath = buildConfigDir + "/" + tileName + '.xml';
-    fs.writeFileSync(xmlPath,
-      swig.renderFile('config/' + map + '/stylesheet.xml.swig', datum)
-    )
 
-    tiles.push({
-      xmlPath: xmlPath,
-      ocdid: ocdid,
-      extent: feature.extent()
-    });
+    for (level of config[map]['levels']) {
+      var xmlPath = buildConfigDir + "/" + tileName + '_' + level + '.xml';
+
+      datum.highlightColor = {
+        federal: '#ffaf50',
+        state: '#0196b4',
+        local: '#3dc489'
+      }[level]
+
+      fs.writeFileSync(xmlPath,
+        swig.renderFile('config/' + map + '/stylesheet.xml.swig', datum)
+      )
+
+      tiles.push({
+        xmlPath: xmlPath,
+        ocdid: ocdid,
+        level: level,
+        extent: feature.extent()
+      });
+    }
   }
 });
 

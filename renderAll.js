@@ -1,13 +1,12 @@
 var mapnik = require('mapnik');
 var fs = require('fs');
-var swig  = require('swig');
 var path = require('path');
 
 // register fonts and datasource plugins
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
 
-var moveToOCDID = function(tilePath, ocdid) {
+var moveToOCDID = function(tilePath, ocdid, level) {
   var buildPath = 'build/'
 
   for (part of ocdid.split('/')) {
@@ -18,7 +17,7 @@ var moveToOCDID = function(tilePath, ocdid) {
   }
 
   // TODO: support multiple variants
-  fs.renameSync(tilePath, path.join(buildPath, 'map.png'))
+  fs.renameSync(tilePath, path.join(buildPath, level + path.extname(tilePath)))
 }
 
 var renderTile = function(tile) {
@@ -42,7 +41,7 @@ var renderTile = function(tile) {
   map.renderFileSync(outPath)
 
   if (tile.ocdid) {
-    moveToOCDID(outPath, tile.ocdid)
+    moveToOCDID(outPath, tile.ocdid, tile.level)
   }
 
   map.clear()
