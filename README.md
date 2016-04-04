@@ -14,4 +14,5 @@ message](https://github.com/tdooner/brigade-maps/commit/15b485c1d8c4f2e8ff4fc154
 1. install node 5.x via nodenv or via some package manager
 2. `npm install`
    This will download and install mapnik, the map rendering tool.
-3. `make`
+3. Install GraphicsMagick
+4. `make`

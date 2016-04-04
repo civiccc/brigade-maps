@@ -1,6 +1,10 @@
 var mapnik = require('mapnik');
 var fs = require('fs');
 var path = require('path');
+var gm = require('gm');
+var execSync = require('child_process').execSync;
+
+const TILESIZE = 512;
 
 // register fonts and datasource plugins
 mapnik.register_default_fonts();
@@ -16,14 +20,15 @@ var moveToOCDID = function(tilePath, ocdid, level) {
     }
   }
 
-  // TODO: support multiple variants
-  fs.renameSync(tilePath, path.join(buildPath, level + path.extname(tilePath)))
+  var outPath = path.join(buildPath, level + path.extname(tilePath))
+  fs.renameSync(tilePath, outPath)
+  return outPath
 }
 
 var renderTile = function(tile) {
   console.log("Rendering " + tile.xmlPath)
 
-  var map = new mapnik.Map(512, 512);
+  var map = new mapnik.Map(TILESIZE, TILESIZE);
   var xmlPath = tile.xmlPath;
   var outPath = path.normalize(path.join(xmlPath, '..', path.basename(xmlPath, '.xml') + '.png'))
   map.fromStringSync(fs.readFileSync(xmlPath).toString())
@@ -41,10 +46,20 @@ var renderTile = function(tile) {
   map.renderFileSync(outPath)
 
   if (tile.ocdid) {
-    moveToOCDID(outPath, tile.ocdid, tile.level)
+    outPath = moveToOCDID(outPath, tile.ocdid, tile.level)
   }
 
-  map.clear()
+  // apply 'water' background color
+  execSync(
+    `gm convert ${outPath} -background '#d3ddff' -extent 0x0 ${outPath}`,
+    function(error, stdout, stderr) {
+      if (error != undefined) {
+        console.log(`Failed to set background on ${outPath}`);
+        console.log(error)
+        console.log(stderr)
+      }
+    }
+  );
 }
 exports.renderTile = renderTile
 

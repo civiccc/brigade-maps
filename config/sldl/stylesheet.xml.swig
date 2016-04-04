@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Map background-color="#d3ddff">
+<Map>
   <Style name="countries">
     <Rule>
       <Filter>not [ISO_A2]='US'</Filter>
@@ -33,7 +33,11 @@
     </Datasource>
   </Layer>
 
-  <Style name="sldl">
+  <!--
+    src-in: only draw where we intersect with the existing render. This fixes
+    district lines that extend out into the sea and become unrecognizable.
+  -->
+  <Style name="sldl" comp-op="src-in">
     <Rule>
       <PolygonSymbolizer fill="#ebebeb" />
     </Rule>
@@ -46,7 +50,6 @@
     <Rule>
       <LineSymbolizer stroke="#fff" stroke-width="4" />
     </Rule>
-
   </Style>
 
   <Layer name="sldl" status="on">
@@ -54,6 +57,25 @@
 
     <Datasource>
       <Parameter name="file">{{shapefile}}</Parameter>
+      <Parameter name="encoding">iso-8859-1</Parameter>
+      <Parameter name="type">shape</Parameter>
+    </Datasource>
+  </Layer>
+
+  <!--
+    seaside districts will have covered their seaside border with their fill
+    color, so we re-draw the state borders to clear this up.
+  -->
+  <Style name="usa_states_borders">
+    <Rule>
+      <LineSymbolizer stroke="#fff" stroke-width="4" />
+    </Rule>
+  </Style>
+
+  <Layer name="usa_states_borders">
+    <StyleName>usa_states_borders</StyleName>
+    <Datasource>
+      <Parameter name="file">shapefiles/usa_states/statesp010g.shp</Parameter>
       <Parameter name="encoding">iso-8859-1</Parameter>
       <Parameter name="type">shape</Parameter>
     </Datasource>
