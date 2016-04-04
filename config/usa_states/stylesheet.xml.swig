@@ -19,12 +19,13 @@
 
   <Style name="usa_states">
     <Rule>
+      <Filter>[TYPE]='Land'</Filter>
       <PolygonSymbolizer fill="#ebebeb" />
       <LineSymbolizer stroke="#fff" stroke-width="4" />
     </Rule>
 
     <Rule>
-      <Filter>[STATE_FIPS]='{{STATE_FIPS}}'</Filter>
+      <Filter>[STATE_FIPS]='{{STATE_FIPS}}' and [TYPE]='Land'</Filter>
       <PolygonSymbolizer fill="{{highlightColor}}" />
     </Rule>
   </Style>

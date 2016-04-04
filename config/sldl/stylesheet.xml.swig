@@ -19,6 +19,7 @@
 
   <Style name="usa_states">
     <Rule>
+      <Filter>[TYPE]='Land'</Filter>
       <PolygonSymbolizer fill="#ebebeb" />
       <LineSymbolizer stroke="#fff" stroke-width="4" />
     </Rule>
@@ -68,6 +69,7 @@
   -->
   <Style name="usa_states_borders">
     <Rule>
+      <Filter>[TYPE]='Land'</Filter>
       <LineSymbolizer stroke="#fff" stroke-width="4" />
     </Rule>
   </Style>
