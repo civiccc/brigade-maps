@@ -57,3 +57,12 @@ shapefiles/sldu:
 	wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDU && \
 	unzip ./\*.zip && \
 	rm ./*.zip
+
+shapefiles/place:
+	# This takes several minutes; you may be better off downloading with a real
+	# ftp client
+	mkdir -p shapefiles/place
+	cd shapefiles/place && \
+	wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/PLACE && \
+	unzip ./\*.zip && \
+	rm ./*.zip

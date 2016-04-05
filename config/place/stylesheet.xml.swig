@@ -4,7 +4,7 @@
     <Rule>
       <Filter>not [ISO_A2]='US'</Filter>
       <PolygonSymbolizer fill="#ebebeb" />
-      <LineSymbolizer stroke="#fff" stroke-width="4" />
+      <LineSymbolizer stroke="#fff" stroke-width="2" />
     </Rule>
   </Style>
 
@@ -21,7 +21,7 @@
     <Rule>
       <Filter>[TYPE]='Land'</Filter>
       <PolygonSymbolizer fill="#ebebeb" />
-      <LineSymbolizer stroke="#fff" stroke-width="4" />
+      <LineSymbolizer stroke="#fff" stroke-width="2" />
     </Rule>
   </Style>
 
@@ -38,7 +38,7 @@
     src-atop: only draw where we intersect with the existing render. This fixes
     district lines that extend out into the sea and become unrecognizable.
   -->
-  <Style name="sldu" comp-op="src-atop">
+  <Style name="places" comp-op="src-atop">
     <Rule>
       <PolygonSymbolizer fill="#ebebeb" />
     </Rule>
@@ -49,12 +49,12 @@
     </Rule>
 
     <Rule>
-      <LineSymbolizer stroke="#fff" stroke-width="4" />
+      <LineSymbolizer stroke="#fff" stroke-width="2" />
     </Rule>
   </Style>
 
-  <Layer name="sldu" status="on">
-    <StyleName>sldu</StyleName>
+  <Layer name="places" status="on">
+    <StyleName>places</StyleName>
 
     <Datasource>
       <Parameter name="file">{{shapefile}}</Parameter>
@@ -70,7 +70,7 @@
   <Style name="usa_states_borders">
     <Rule>
       <Filter>[TYPE]='Land'</Filter>
-      <LineSymbolizer stroke="#fff" stroke-width="4" />
+      <LineSymbolizer stroke="#fff" stroke-width="2" />
     </Rule>
   </Style>
 

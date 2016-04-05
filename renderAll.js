@@ -26,6 +26,10 @@ var moveToOCDID = function(tilePath, ocdid, level) {
 }
 
 var renderTile = function(tile) {
+  // skip rendering tiles without an OCDID, as they won't be visible
+  // in the product and this avoids rendering ~10K tiles
+  if (tile.ocdid == undefined) { return; }
+
   console.log("Rendering " + tile.xmlPath)
 
   var map = new mapnik.Map(TILESIZE, TILESIZE);
@@ -45,9 +49,7 @@ var renderTile = function(tile) {
   map.zoomToBox(extent[0], extent[1], extent[2], extent[3]);
   map.renderFileSync(outPath)
 
-  if (tile.ocdid) {
-    outPath = moveToOCDID(outPath, tile.ocdid, tile.level)
-  }
+  outPath = moveToOCDID(outPath, tile.ocdid, tile.level)
 
   // apply 'water' background color
   execSync(
