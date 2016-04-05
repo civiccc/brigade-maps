@@ -22,6 +22,16 @@
     "render_each": ["GEOID"],
     "levels": ["state"]
   },
+  "county": {
+    "shapefile": "shapefiles/county/*.shp",
+    "render_each": ["GEOID"],
+    "levels": ["local"]
+  },
+  "cousub": {
+    "shapefile": "shapefiles/cousub/*.shp",
+    "render_each": ["GEOID"],
+    "levels": ["local"]
+  },
   "place": {
     "shapefile": "shapefiles/place/*.shp",
     "render_each": ["GEOID"],

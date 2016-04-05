@@ -66,3 +66,24 @@ shapefiles/place:
 	wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/PLACE && \
 	unzip ./\*.zip && \
 	rm ./*.zip
+
+shapefiles/county:
+	# This takes several minutes; you may be better off downloading with a real
+	# ftp client
+	mkdir -p shapefiles/county
+	cd shapefiles/county && \
+	wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/COUNTY && \
+	unzip ./\*.zip && \
+	rm ./*.zip
+
+# County Subdivisions: some OCD "places" / incorporated towns are represented
+# in the census datasets as "County Subdivisions":
+# https://www.census.gov/geo/reference/gtc/gtc_cousub.html
+shapefiles/cousub:
+	# This takes several minutes; you may be better off downloading with a real
+	# ftp client
+	mkdir -p shapefiles/cousub
+	cd shapefiles/cousub && \
+	wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/COUSUB && \
+	unzip ./\*.zip && \
+	rm ./*.zip
