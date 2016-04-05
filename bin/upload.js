@@ -3,17 +3,22 @@ var cloudinary = require('cloudinary');
 var fs = require('fs');
 var path = require('path');
 
+const MAX_CONCURRENCY = 40
+
+// write csv header row
+process.stdout.write("ocdid,level,version,public_id\n")
+
 var uploadQueue = async.queue(
   function(tile, callback) {
-    console.log('uploading ' + tile.ocdid + '/' + tile.level);
     var tilePath = path.join('build', tile.ocdid, tile.level + '.png');
     cloudinary.uploader.upload(
       tilePath,
       function(result) {
         if (result.public_id == undefined) {
-          console.log("Failed to upload tile " + tilePath + " : " + result)
+          process.stderr.write("Failed to upload tile " + tilePath)
+          process.stderr.write(result)
         } else {
-          console.log('uploaded ' + tile.ocdid + '/' + tile.level);
+          process.stdout.write(`${tile.ocdid},${tile.level},${result.version},${result.public_id}\n`)
         }
         callback();
       },
@@ -23,7 +28,7 @@ var uploadQueue = async.queue(
       }
     );
   },
-  20 // max concurrent jobs
+  MAX_CONCURRENCY
 )
 
 var tiles = JSON.parse(fs.readFileSync('build/tiles.json'));
