@@ -2,7 +2,12 @@
   "114_congress": {
     "shapefile": "shapefiles/114_congress/cgd114p010g.shp",
     "render_each": ["STATE_FIPS", "CONG_DIST"],
-    "levels": ["federal"]
+    "levels": ["federal"],
+    "overrides": {
+      "#": "Alaska spans the antimeridian, which defaults to a terrible bounding box;",
+      "#": "this one is chosen by trial/error to look decent.",
+      "ocd-division/country:us/state:ak/cd:1": [ -167.4151624429243, 52.13488995781047, -137.38820698883663, 70.77454903310965 ]
+    }
   },
   "usa_states": {
     "shapefile": "shapefiles/usa_states/statesp010g.shp",
@@ -10,6 +15,11 @@
     "levels": ["federal", "state"],
     "skip": {
       "TYPE": "Water"
+    },
+    "overrides": {
+      "#": "Alaska spans the antimeridian, which defaults to a terrible bounding box;",
+      "#": "this one is chosen by trial/error to look decent.",
+      "ocd-division/country:us/state:ak": [ -167.4151624429243, 52.13488995781047, -137.38820698883663, 70.77454903310965 ]
     }
   },
   "sldl": {

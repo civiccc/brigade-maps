@@ -70,6 +70,8 @@ Object.keys(config).forEach(function(map) {
   generateOcdIdMaps(map, config[map])
 
   var shapefiles = glob.sync(config[map]['shapefile']);
+  var overrides = config[map]['overrides'] || {};
+
   for (shapefile of shapefiles) {
     var featureset = new mapnik.Datasource({ type: 'shape', file: shapefile }).featureset();
     var feature;
@@ -86,6 +88,7 @@ Object.keys(config).forEach(function(map) {
       var ocdid = getTileOCDID(renderAttributes, map, config[map]);
       if (!ocdid) { continue}
 
+      var extent = overrides[ocdid] || feature.extent()
       var tileName = renderAttributes.join("-")
 
       for (level of config[map]['levels']) {
@@ -102,7 +105,7 @@ Object.keys(config).forEach(function(map) {
           xmlPath: xmlPath,
           ocdid: ocdid,
           level: level,
-          extent: feature.extent()
+          extent: extent
         });
       }
     }
