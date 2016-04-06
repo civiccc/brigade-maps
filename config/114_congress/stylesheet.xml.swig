@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Map background-color="#d3ddff">
+<Map background-color="#d3ddff" srs="+init=epsg:3857">
   <Style name="countries">
     <Rule>
       <Filter>not [ISO_A2]='US'</Filter>
@@ -8,7 +8,7 @@
     </Rule>
   </Style>
 
-  <Layer name="countries">
+  <Layer name="countries" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
     <StyleName>countries</StyleName>
     <Datasource>
       <Parameter name="file">shapefiles/countries/ne_10m_admin_0_countries.shp</Parameter>
@@ -33,7 +33,7 @@
 
   </Style>
 
-  <Layer name="usa_congressional_districts" status="on">
+  <Layer name="usa_states" srs="+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs">
     <StyleName>usa_congressional_districts</StyleName>
 
     <Datasource>

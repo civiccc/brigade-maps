@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Map>
+<Map srs="+init=epsg:3857">
   <Style name="countries">
     <Rule>
       <Filter>not [ISO_A2]='US'</Filter>
@@ -8,7 +8,7 @@
     </Rule>
   </Style>
 
-  <Layer name="countries">
+  <Layer name="countries" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
     <StyleName>countries</StyleName>
     <Datasource>
       <Parameter name="file">shapefiles/countries/ne_10m_admin_0_countries.shp</Parameter>
@@ -25,7 +25,7 @@
     </Rule>
   </Style>
 
-  <Layer name="usa_states">
+  <Layer name="usa_states" srs="+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs">
     <StyleName>usa_states</StyleName>
     <Datasource>
       <Parameter name="file">shapefiles/usa_states/statesp010g.shp</Parameter>
@@ -53,7 +53,7 @@
     </Rule>
   </Style>
 
-  <Layer name="sldl" status="on">
+  <Layer name="sldl" srs="+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs">
     <StyleName>sldl</StyleName>
 
     <Datasource>
@@ -74,7 +74,7 @@
     </Rule>
   </Style>
 
-  <Layer name="usa_states_borders">
+  <Layer name="usa_states_borders" srs="+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs">
     <StyleName>usa_states_borders</StyleName>
     <Datasource>
       <Parameter name="file">shapefiles/usa_states/statesp010g.shp</Parameter>

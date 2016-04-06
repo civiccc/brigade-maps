@@ -6,6 +6,8 @@ var execSync = require('child_process').execSync;
 
 const TILESIZE = 512;
 
+var merc = new mapnik.Projection('+init=epsg:3857')
+
 // register fonts and datasource plugins
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
@@ -46,7 +48,7 @@ var renderTile = function(tile) {
   extent[2] += xdiff * 0.1
   extent[3] += ydiff * 0.1
 
-  map.zoomToBox(extent[0], extent[1], extent[2], extent[3]);
+  map.zoomToBox(merc.forward(extent))
   map.renderFileSync(outPath)
 
   outPath = moveToOCDID(outPath, tile.ocdid, tile.level)
