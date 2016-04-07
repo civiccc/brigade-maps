@@ -1,4 +1,13 @@
 {
+  "countries": {
+    "shapefile": "shapefiles/countries/ne_10m_admin_0_countries.shp",
+    "render_each": ["ISO_A2"],
+    "levels": ["federal"],
+    "overrides": {
+      "#": "USA looks terrible with AK and HI blowing out the bounding box",
+      "ocd-division/country:us": [-125.33,24.53,-65.83,49.84]
+    }
+  },
   "114_congress": {
     "shapefile": "shapefiles/114_congress/cgd114p010g.shp",
     "render_each": ["STATE_FIPS", "CONG_DIST"],
