@@ -16,3 +16,28 @@ message](https://github.com/tdooner/brigade-maps/commit/15b485c1d8c4f2e8ff4fc154
    This will download and install mapnik, the map rendering tool.
 3. Install GraphicsMagick
 4. `make`
+
+# Uploading to Cloudinary
+
+```
+  node bin/upload.js > cloudinary_images.csv
+  # Recommended: use `jq` to count number of tiles to be uploaded, `pv` to show upload progress:
+  # node bin/upload.js | pv -ls ${ jq ‘. | length’ < build/tiles.json} > cloudinary_images.csv
+```
+
+Copy `cloudinary_images.csv` to a Rails server, and then update the Districts
+with the appropriate images from a Rails console:
+
+```
+open('cloudinary_images.csv') do |csv|
+  csv.readline # advance past headers
+  csv.each_line do |row|
+    ocdid, level, version, public_id = row.strip.split(',')
+    District.
+      joins(:civic_division).
+      where(level: level).
+      where(civic_divisions: { ocd_id: ocdid }).
+      update_all(image: "v#{version}/#{public_id}.png")
+  end
+end
+```
