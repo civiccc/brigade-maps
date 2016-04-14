@@ -44,7 +44,11 @@
   "county": {
     "shapefile": "shapefiles/county/*.shp",
     "render_each": ["GEOID"],
-    "levels": ["local"]
+    "levels": ["local"],
+    "overrides": {
+      "#": "county/06075: San francisco includes the Farallon Islands, which blows the map boundaries way up",
+      "ocd-division/country:us/state:ca/county:san_francisco": [ -122.536011,37.698219,-122.337227,37.839072 ]
+    }
   },
   "cousub": {
     "shapefile": "shapefiles/cousub/*.shp",
@@ -54,6 +58,10 @@
   "place": {
     "shapefile": "shapefiles/place/*.shp",
     "render_each": ["GEOID"],
-    "levels": ["local"]
+    "levels": ["local"],
+    "overrides": {
+      "#": "place/0667000: San francisco includes the Farallon Islands, which blows the map boundaries way up",
+      "ocd-division/country:us/state:ca/place:san_francisco": [ -122.536011,37.698219,-122.337227,37.839072 ]
+    }
   }
 }
