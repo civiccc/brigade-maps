@@ -15,7 +15,9 @@
     "overrides": {
       "#": "Alaska spans the antimeridian, which defaults to a terrible bounding box;",
       "#": "this one is chosen by trial/error to look decent.",
-      "ocd-division/country:us/state:ak/cd:1": [ -167.4151624429243, 52.13488995781047, -137.38820698883663, 70.77454903310965 ]
+      "ocd-division/country:us/state:ak/cd:1": [ -167.4151624429243, 52.13488995781047, -137.38820698883663, 70.77454903310965 ],
+      "#": "114_congress/06-14: Don't include Farallon islands",
+      "ocd-division/country:us/state:ca/cd:14": [ -122.55455, 37.322666, -122.084541, 37.768544 ]
     }
   },
   "usa_states": {
@@ -34,12 +36,20 @@
   "sldl": {
     "shapefile": "shapefiles/sldl/*.shp",
     "render_each": ["GEOID"],
-    "levels": ["state"]
+    "levels": ["state"],
+    "overrides": {
+      "#": "sldl/06019: Don't include Farallon islands",
+      "ocd-division/country:us/state:ca/sldl:19": [ -122.521248, 37.643597, -122.365379, 37.811954 ]
+    }
   },
   "sldu": {
     "shapefile": "shapefiles/sldu/*.shp",
     "render_each": ["GEOID"],
-    "levels": ["state"]
+    "levels": ["state"],
+    "overrides": {
+      "#": "sldu/06011: Don't include Farallon islands",
+      "ocd-division/country:us/state:ca/sldu:11": [ -122.521248, 37.634897, -122.352333, 37.837445 ]
+    }
   },
   "county": {
     "shapefile": "shapefiles/county/*.shp",
