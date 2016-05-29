@@ -90,7 +90,7 @@ file('shapefiles/sldl', { async: true }, () => {
     'bash -c "' +
       'cd ' + tempdir + ' && ' +
       'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDL && ' +
-      'unzip ./\*.zip && ' +
+      'unzip ./\\*.zip && ' +
       'rm ./*.zip"',
     'mv ' + tempdir + ' shapefiles/sldl'
   ], { printStdout: true, printStderr: true }, complete);
@@ -104,7 +104,7 @@ file('shapefiles/sldl', { async: true }, () => {
     'bash -c "' +
       'cd ' + tempdir + ' && ' +
       'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDL && ' +
-      'unzip ./\*.zip && ' +
+      'unzip ./\\*.zip && ' +
       'rm ./*.zip"',
     'mv ' + tempdir + ' shapefiles/sldl'
   ], { printStdout: true, printStderr: true }, complete);
@@ -118,7 +118,7 @@ file('shapefiles/sldu', { async: true }, () => {
     'bash -c "' +
       'cd ' + tempdir + ' && ' +
       'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDU && ' +
-      'unzip ./\*.zip && ' +
+      'unzip ./\\*.zip && ' +
       'rm ./*.zip"',
     'mv ' + tempdir + ' shapefiles/sldl'
   ], { printStdout: true, printStderr: true }, complete);
@@ -132,7 +132,7 @@ file('shapefiles/place', { async: true }, () => {
     'bash -c "' +
       'cd ' + tempdir + ' && ' +
       'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/PLACE && ' +
-      'unzip ./\*.zip && ' +
+      'unzip ./\\*.zip && ' +
       'rm ./*.zip"',
     'mv ' + tempdir + ' shapefiles/place'
   ], { printStdout: true, printStderr: true }, complete);
@@ -146,7 +146,7 @@ file('shapefiles/county', { async: true }, () => {
     'bash -c "' +
       'cd ' + tempdir + ' && ' +
       'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/COUNTY && ' +
-      'unzip ./\*.zip && ' +
+      'unzip ./\\*.zip && ' +
       'rm ./*.zip"',
     'mv ' + tempdir + ' shapefiles/county'
   ], { printStdout: true, printStderr: true }, complete);
@@ -163,7 +163,7 @@ file('shapefiles/cousub', { async: true }, () => {
     'bash -c "' +
       'cd ' + tempdir + ' && ' +
       'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/COUSUB && ' +
-      'unzip ./\*.zip && ' +
+      'unzip ./\\*.zip && ' +
       'rm ./*.zip"',
     'mv ' + tempdir + ' shapefiles/cousub'
   ], { printStdout: true, printStderr: true }, complete);
