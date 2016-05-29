@@ -3,20 +3,20 @@ var listShapefileFeatures = require('../../lib/shapefile').listFeatures;
 var fs = require('fs');
 var glob = require('glob');
 
-var fipsCodes = parse(fs.readFileSync('data/fips.csv'), { comment: '#' })
+var fipsCodes = parse(fs.readFileSync('data/fips.csv'), { comment: '#' });
 
 var stateByCode = {};
 for (code of fipsCodes) {
-  stateByCode[code[2]] = { name: code[0], abbreviation: code[1] }
+  stateByCode[code[2]] = { name: code[0], abbreviation: code[1] };
 }
 
 
-var ocdCsv = parse(fs.readFileSync('data/us_census_places.csv'), { comment: '#' })
-var ocdidByGeoId = {}
+var ocdCsv = parse(fs.readFileSync('data/us_census_places.csv'), { comment: '#' });
+var ocdidByGeoId = {};
 for (row of ocdCsv) {
-  var ocdid = row[0]
-  var census_geoid = row[2].slice(6) // chop off leading "place-"
-  ocdidByGeoId[census_geoid] = ocdid
+  var ocdid = row[0];
+  var census_geoid = row[2].slice(6); // chop off leading "place-"
+  ocdidByGeoId[census_geoid] = ocdid;
 }
 
 
@@ -46,16 +46,16 @@ var shapefiles = glob.sync('shapefiles/county/*.shp');
 //      quasi-legal administrative functions
 // 'N': Nonfunctioning legal entity
 // 'S': Statistical entity
-var validStatus = (funcstat) => ('ABCMT'.indexOf(funcstat) != -1)
+var validStatus = (funcstat) => ('ABCMT'.indexOf(funcstat) != -1);
 
 for (shapefile of shapefiles) {
   for (feature of listShapefileFeatures(shapefile)) {
-    if (!validStatus(feature.FUNCSTAT)) { continue }
+    if (!validStatus(feature.FUNCSTAT)) { continue; }
     var geoId = feature.GEOID;
     var ocdid = ocdidByGeoId[geoId];
 
     // skip places without ocdid
-    if (!ocdid) { continue }
+    if (!ocdid) { continue; }
 
     console.log([feature.GEOID, ocdid].join(','));
   }
