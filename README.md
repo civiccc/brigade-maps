@@ -14,8 +14,16 @@ message](https://github.com/tdooner/brigade-maps/commit/15b485c1d8c4f2e8ff4fc154
 1. install node 5.x via nodenv or via some package manager
 2. `npm install`
    This will download and install mapnik, the map rendering tool.
-3. Install GraphicsMagick
-4. `make`
+3. Install GraphicsMagick (`brew install GraphicsMagick`)
+4. `npm run render`
+
+# Commands
+To see all available commands, run:
+
+```bash
+export PATH=$(npm bin):$PATH
+jake -T
+```
 
 # Uploading to Cloudinary
 
