@@ -1,10 +1,9 @@
+const fs = require('fs');
+const glob = require('glob');
+const mapnik = require('mapnik');
+const swig = require('swig');
+
 const ocdidMappingProcessor = require('./lib/ocdidMappingProcessor');
-
-var fs = require('fs');
-
-var glob = require('glob');
-var mapnik = require('mapnik');
-var swig = require('swig');
 
 mapnik.register_default_input_plugins();
 
@@ -16,15 +15,15 @@ const HIGHLIGHT_COLORS = {
 
 // Globals
 // map configuration
-var config = JSON.parse(fs.readFileSync('config/maps.json'));
+const config = JSON.parse(fs.readFileSync('config/maps.json'));
 
 // check if a feature matches any of the attributes in the skip list
-var shouldSkip = function(config, feature) {
-  if (config['skip']) {
-    var datum = feature.attributes();
+const shouldSkip = function(mapConfig, feature) {
+  if (mapConfig.skip) {
+    const datum = feature.attributes();
 
-    for (attr of Object.keys(config['skip'])) {
-      if (datum[attr] == config['skip'][attr]) {
+    for (const attr of Object.keys(mapConfig.skip)) {
+      if (datum[attr] === mapConfig.skip[attr]) {
         return true;
       }
     }
@@ -33,10 +32,10 @@ var shouldSkip = function(config, feature) {
 };
 
 // output collection
-var tiles = [];
+const tiles = [];
 
 Object.keys(config).forEach(function(map) {
-  var buildConfigDir = 'build/' + map;
+  const buildConfigDir = 'build/' + map;
   console.log('Generating config ' + buildConfigDir);
   if (!fs.existsSync(buildConfigDir)) {
     fs.mkdirSync(buildConfigDir);
@@ -44,30 +43,35 @@ Object.keys(config).forEach(function(map) {
 
   ocdidMappingProcessor.generateOcdIdMaps(map, config[map]);
 
-  var shapefiles = glob.sync(config[map]['shapefile']);
-  var overrides = config[map]['overrides'] || {};
+  const shapefiles = glob.sync(config[map].shapefile);
+  const overrides = config[map].overrides || {};
 
   for (const shapefile of shapefiles) {
-    var featureset = new mapnik.Datasource({ type: 'shape', file: shapefile }).featureset();
-    var feature;
+    const featureset = new mapnik.Datasource({ type: 'shape', file: shapefile }).featureset();
+    let feature;
 
+    // eslint-disable-next-line
     while (feature = featureset.next()) {
 
-      if (shouldSkip(config[map], feature)) { continue; }
+      if (shouldSkip(config[map], feature)) {
+        continue;
+      }
 
-      var datum = feature.attributes();
-      var renderAttributes = config[map]['render_each'].map((attr) => datum[attr]);
+      const datum = feature.attributes();
+      const renderAttributes = config[map].render_each.map((attr) => datum[attr]);
 
       // skip rendering of tiles without an ocdid, since we won't represent
       // them on brigade anywhere
-      var ocdid = ocdidMappingProcessor.getTileOCDID(renderAttributes, map, config[map]);
-      if (!ocdid) { continue;}
+      const ocdid = ocdidMappingProcessor.getTileOCDID(renderAttributes, map, config[map]);
+      if (!ocdid) {
+        continue;
+      }
 
-      var extent = overrides[ocdid] || feature.extent();
-      var tileName = renderAttributes.join('-');
+      const extent = overrides[ocdid] || feature.extent();
+      const tileName = renderAttributes.join('-');
 
-      for (level of config[map]['levels']) {
-        var xmlPath = buildConfigDir + '/' + tileName + '_' + level + '.xml';
+      for (const level of config[map].levels) {
+        const xmlPath = buildConfigDir + '/' + tileName + '_' + level + '.xml';
 
         datum.highlightColor = HIGHLIGHT_COLORS[level];
         datum.shapefile = shapefile;
