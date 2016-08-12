@@ -7,8 +7,11 @@ temp.track(); // automatically cleanup temp dirs on exit
 
 desc('Render all maps');
 task('render', ['shapefiles', 'renderAll.js', 'build/tiles.json', 'renderGeoJSON.js'], () => {
+  const renderGeoJSON = require('./renderGeoJSON.js');
   const renderAll = require('./renderAll.js').renderAll;
   const filterTile = process.env.only;
+
+  renderGeoJSON(filterTile);
   renderAll(filterTile);
 });
 
