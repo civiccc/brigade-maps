@@ -1,6 +1,6 @@
 'use strict';
 
-const buildConfig = require('./lib/buildConfig');
+const buildConfig = require('./lib/buildConfig')();
 
 const fs = require('fs');
 const path = require('path');
@@ -42,10 +42,10 @@ const renderTile = function(tile) {
 
   const map = new mapnik.Map(TILESIZE, TILESIZE);
   const xmlPath = tile.xmlPath;
-  const outPath = path.normalize(path.join(xmlPath, '..', path.basename(xmlPath, '.xml') + '.png'));
+  let outPath = path.normalize(path.join(xmlPath, '..', path.basename(xmlPath, '.xml') + '.png'));
   map.fromStringSync(fs.readFileSync(xmlPath).toString());
 
-  const extent = tile.extent;
+  let extent = tile.extent;
   extent = padExtent(extent);    // add padding around highlighted feature
   extent = merc.forward(extent); // convert to Web Mercator coords
   map.zoomToBox(extent);

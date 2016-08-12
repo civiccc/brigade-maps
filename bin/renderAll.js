@@ -1,6 +1,9 @@
 #!/usr/bin/env node
-var renderAll = require('../renderAll.js').renderAll;
+'use strict';
 
-var filterTile = process.argv[2];
+const renderGeoJSON = require('../renderGeoJSON');
+const renderAll = require('../renderAll.js').renderAll;
+const filterTile = process.argv[2];
 
+renderGeoJSON(filterTile);
 renderAll(filterTile);

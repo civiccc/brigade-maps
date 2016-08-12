@@ -1,10 +1,12 @@
+'use strict';
+
 /* global desc task file complete jake */
 const temp = require('temp');
 
 temp.track(); // automatically cleanup temp dirs on exit
 
 desc('Render all maps');
-task('render', ['shapefiles', 'renderAll.js', 'build/tiles.json'], () => {
+task('render', ['shapefiles', 'renderAll.js', 'build/tiles.json', 'renderGeoJSON.js'], () => {
   const renderAll = require('./renderAll.js').renderAll;
   const filterTile = process.env.only;
   renderAll(filterTile);
@@ -20,13 +22,15 @@ file('build/tiles.json', ['generateBuildConfig.js', 'config/maps.json'], { async
   });
 });
 
-file('config/114_congress/ocdid_mapping.csv', ['config/114_congress/generateOcdidMapping.js', 'data/fips.csv'], { async: true }, () => {
-  jake.exec([
-    'bash -c "node config/114_congress/generateOcdidMapping.js > config/114_congress/ocdid_mapping.csv"'
-  ], { printStdout: true, printStderr: true }, () => {
-    complete();
+file('config/114_congress/ocdid_mapping.csv',
+  ['config/114_congress/generateOcdidMapping.js', 'data/fips.csv'], { async: true }, () => {
+    jake.exec([
+      `bash -c "node config/114_congress/generateOcdidMapping.js >
+        config/114_congress/ocdid_mapping.csv"`
+    ], { printStdout: true, printStderr: true }, () => {
+      complete();
+    });
   });
-});
 
 desc('render california');
 task('california', ['shapefiles', 'renderAll.js', 'build/tiles.json'], { async: true }, () => {
