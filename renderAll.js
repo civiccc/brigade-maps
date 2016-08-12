@@ -1,7 +1,10 @@
-var mapnik = require('mapnik');
-var fs = require('fs');
+const buildConfig = require('./lib/buildConfig');
+
+const fs = require('fs');
 var path = require('path');
-var gm = require('gm');
+
+var mapnik = require('mapnik');
+
 var execSync = require('child_process').execSync;
 
 const TILESIZE = 512;
@@ -11,21 +14,6 @@ var merc = new mapnik.Projection('+init=epsg:3857');
 // register fonts and datasource plugins
 mapnik.register_default_fonts();
 mapnik.register_default_input_plugins();
-
-var moveToOCDID = function(tilePath, ocdid, level) {
-  var buildPath = 'build/';
-
-  for (part of ocdid.split('/')) {
-    buildPath = path.join(buildPath, part);
-    if (!fs.existsSync(buildPath)) {
-      fs.mkdirSync(buildPath);
-    }
-  }
-
-  var outPath = path.join(buildPath, level + path.extname(tilePath));
-  fs.renameSync(tilePath, outPath);
-  return outPath;
-};
 
 // Add some padding around a highlighted feature
 // extent coords are in the form [minx, miny, maxx, maxy]
@@ -60,7 +48,7 @@ var renderTile = function(tile) {
 
   map.renderFileSync(outPath);
 
-  outPath = moveToOCDID(outPath, tile.ocdid, tile.level);
+  outPath = buildConfig.moveToOCDID(outPath, tile.ocdid, tile.level);
 
   // apply 'water' background color
   execSync(
