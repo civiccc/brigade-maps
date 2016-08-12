@@ -1,1 +1,7 @@
-{ "environments": ["node"] }
+{
+  "environments": ["node"],
+  "declarationKeyword": "const",
+  "aliases": {
+    "parseCsv": "csv-parse/lib/sync"
+  }
+}
