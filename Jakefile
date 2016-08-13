@@ -92,6 +92,7 @@ task('shapefiles', [
   'shapefiles/countries',
   'shapefiles/sldl',
   'shapefiles/sldu',
+  'shapefiles/county',
 ]);
 
 desc('clean up build residuals');
