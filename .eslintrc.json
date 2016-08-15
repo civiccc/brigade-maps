@@ -4,5 +4,9 @@
   },
   "extends": [
     "eslint-config-brigade"
-  ]
+  ],
+  "rules": {
+    "no-console": 0,
+    "strict": [2, "global"]
+  }
 }

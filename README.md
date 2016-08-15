@@ -5,10 +5,6 @@ OCD Division ID (OCDID) Shapefiles
 
 ![example map - CA-12](https://raw.githubusercontent.com/tdooner/brigade-maps/master/example.png)
 
-# Adding a New Map
-To add a new map, follow the instructions [in this commit
-message](https://github.com/tdooner/brigade-maps/commit/15b485c1d8c4f2e8ff4fc1542961ab991bf60cbd)
-
 # Installation
 
 1. install node 5.x via nodenv or via some package manager
@@ -24,6 +20,30 @@ To see all available commands, run:
 export PATH=$(npm bin):$PATH
 jake -T
 ```
+
+Some common commands you might find useful:
+
+## Download all the Shapefiles
+```bash
+$(npm bin)/jake shapefiles
+```
+
+## Render everything
+```bash
+$(npm bin)/jake render
+```
+
+## Package GeoJSON for upload
+```bash
+$(npm bin)/jake package-geoJSON
+
+# then you will want to upload it with something like:
+aws s3 cp build/tmp-geojson.tar.gz s3://brigade-development/geojson-districts.tar.gz --acl=public-read
+```
+
+# Adding a New Map
+To add a new map, follow the instructions [in this commit
+message](https://github.com/tdooner/brigade-maps/commit/15b485c1d8c4f2e8ff4fc1542961ab991bf60cbd)
 
 # Uploading to Cloudinary
 

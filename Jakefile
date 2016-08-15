@@ -1,12 +1,18 @@
+'use strict';
+
 /* global desc task file complete jake */
 const temp = require('temp');
+const execSync = require('child_process').execSync;
 
 temp.track(); // automatically cleanup temp dirs on exit
 
 desc('Render all maps');
-task('render', ['shapefiles', 'renderAll.js', 'build/tiles.json'], () => {
+task('render', ['shapefiles', 'renderAll.js', 'build/tiles.json', 'renderGeoJSON.js'], () => {
+  const renderGeoJSON = require('./renderGeoJSON.js');
   const renderAll = require('./renderAll.js').renderAll;
   const filterTile = process.env.only;
+
+  renderGeoJSON(filterTile);
   renderAll(filterTile);
 });
 
@@ -20,13 +26,15 @@ file('build/tiles.json', ['generateBuildConfig.js', 'config/maps.json'], { async
   });
 });
 
-file('config/114_congress/ocdid_mapping.csv', ['config/114_congress/generateOcdidMapping.js', 'data/fips.csv'], { async: true }, () => {
-  jake.exec([
-    'bash -c "node config/114_congress/generateOcdidMapping.js > config/114_congress/ocdid_mapping.csv"'
-  ], { printStdout: true, printStderr: true }, () => {
-    complete();
+file('config/114_congress/ocdid_mapping.csv',
+  ['config/114_congress/generateOcdidMapping.js', 'data/fips.csv'], { async: true }, () => {
+    jake.exec([
+      `bash -c "node config/114_congress/generateOcdidMapping.js >
+        config/114_congress/ocdid_mapping.csv"`
+    ], { printStdout: true, printStderr: true }, () => {
+      complete();
+    });
   });
-});
 
 desc('render california');
 task('california', ['shapefiles', 'renderAll.js', 'build/tiles.json'], { async: true }, () => {
@@ -37,12 +45,54 @@ task('california', ['shapefiles', 'renderAll.js', 'build/tiles.json'], { async: 
   });
 });
 
+desc('package and upload GeoJSON files to S3');
+task('package-geoJSON', [], () => {
+  let tarBinary = 'tar';
+
+  execSync('tar --version', (err, stdout) => {
+    if (err !== undefined) {
+      console.log('Failed to call `tar` executable!');
+    }
+
+    if (stdout.indexOf('GNU tar') !== -1) {
+      // all's good in the hood!
+      return;
+    }
+
+    execSync('gtar --version', (err2) => {
+      if (err2 !== undefined) {
+        console.log('ERROR: You will need to install GNU tar for this upload to work.');
+        console.log('');
+        console.log('Run `brew install gnu-tar`.');
+      } else {
+        tarBinary = 'gtar';
+      }
+    });
+  });
+
+  jake.exec([
+    `bash -c "cd build/; find ocd-division -name geojson.json | \
+      ${tarBinary} -T- --transform='s/\\/geojson\\.json$/.json/' -czf tmp-geojson.tar.gz"`
+  ], { printStdout: true, printStderr: true }, () => {
+    console.log('Successfully output to build/tmp-geojson.tar.gz.');
+    console.log('');
+    console.log('You can now manually upload this to S3 with the AWS-CLI like:');
+    console.log('');
+    console.log('  aws s3 cp build/tmp-geojson.tar.gz s3://brigade-development/geojson-districts.tar.gz --acl=public-read');
+    console.log('');
+    console.log('(if you do not have aws-cli, you can install it with `pip install aws-cli`)');
+
+    complete();
+  });
+});
+
 task('shapefiles', [
   'shapefiles/114_congress',
   'shapefiles/usa_states',
   'shapefiles/countries',
   'shapefiles/sldl',
   'shapefiles/sldu',
+  'shapefiles/county',
 ]);
 
 desc('clean up build residuals');
