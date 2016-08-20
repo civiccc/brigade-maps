@@ -3,6 +3,7 @@
 const fs = require('fs');
 
 const simplify = require('simplify-geojson');
+const geojsonhint = require('geojsonhint');
 
 const buildConfig = require('./lib/buildConfig')();
 const ocdidMappingProcessor = require('./lib/ocdidMappingProcessor');
@@ -24,6 +25,7 @@ module.exports = function() {
         return;
       }
 
+      const featureAsGeoJSON = JSON.parse(feature.toJSON());
       // Simplify the feature's shape, so the resulting GeoJSON is a usably
       // small size.
       //
@@ -31,9 +33,14 @@ module.exports = function() {
       // (1 degree = ~69 mi) of which smaller lines should be simplified. This
       // might require some tweaking.
       // See: https://www.npmjs.com/package/simplify-geojson
-      const featureAsGeoJSON = JSON.parse(feature.toJSON());
       const simplified = simplify(featureAsGeoJSON, 0.02).geometry;
       simplified.coordinates = roundCoordinates(simplified.coordinates);
+
+      const hints = geojsonhint.hint(simplified);
+      if (hints.find(hint => hint.level !== 'warn')) {
+        console.log(hints);
+        throw Error('Invalid GeoJSON for: ' + ocdid);
+      }
 
       fs.writeFileSync('build/tmp.json', JSON.stringify(simplified));
 
