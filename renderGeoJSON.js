@@ -1,13 +1,10 @@
 'use strict';
 
 const fs = require('fs');
-
-const simplify = require('simplify-geojson');
-const geojsonhint = require('geojsonhint');
+const spawn = require('child_process').spawnSync;
 
 const buildConfig = require('./lib/buildConfig')();
 const ocdidMappingProcessor = require('./lib/ocdidMappingProcessor');
-const roundCoordinates = require('./lib/roundCoordinates');
 
 module.exports = function() {
   buildConfig.eachMap((mapName, mapConfig) => {
@@ -25,24 +22,25 @@ module.exports = function() {
         return;
       }
 
-      const featureAsGeoJSON = JSON.parse(feature.toJSON());
-      // Simplify the feature's shape, so the resulting GeoJSON is a usably
-      // small size.
-      //
-      // 0.02 is a hand-picked number -- it designates a tolerance in degrees
-      // (1 degree = ~69 mi) of which smaller lines should be simplified. This
-      // might require some tweaking.
-      // See: https://www.npmjs.com/package/simplify-geojson
-      const simplified = simplify(featureAsGeoJSON, 0.02).geometry;
-      simplified.coordinates = roundCoordinates(simplified.coordinates);
+      fs.writeFileSync('build/tmp.json', feature.geometry().toJSON());
+      const simplify = spawn('node_modules/.bin/mapshaper',
+        ['-i', 'build/tmp.json', '-simplify', 'visvalingam', '10%',
+         '-o', 'build/tmp.json', 'force', 'precision=0.0001']
+      );
 
-      const hints = geojsonhint.hint(simplified);
-      if (hints.find(hint => hint.level !== 'warn')) {
-        console.log(hints);
-        throw Error('Invalid GeoJSON for: ' + ocdid);
+      if (simplify.status !== 0) {
+        console.error('ERROR Simplifying tile failed: ', ocdid);
+        console.error(simplify.stderr);
+        return;
       }
 
-      fs.writeFileSync('build/tmp.json', JSON.stringify(simplified));
+      // mapshaper encloses the geometry inside a GeometryCollection although
+      // in practice we never have more than one element. This is wasteful of
+      // space and breaks the assumptions of some clients (iOS).
+      //
+      // So, let's just grab the first geometry object.
+      const justGeometry = JSON.parse(fs.readFileSync('build/tmp.json')).geometries[0];
+      fs.writeFileSync('build/tmp.json', JSON.stringify(justGeometry));
 
       buildConfig.moveToOCDID('build/tmp.json', ocdid, 'geojson');
     });
