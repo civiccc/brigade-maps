@@ -35,7 +35,7 @@ $(npm bin)/jake render
 
 ## Package GeoJSON for upload
 ```bash
-$(npm bin)/jake package-geoJSON
+$(npm bin)/jake package-geojson
 
 # then you will want to upload it with something like:
 aws s3 cp build/tmp-geojson.tar.gz s3://brigade-development/geojson-districts.tar.gz --acl=public-read

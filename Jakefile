@@ -46,7 +46,7 @@ task('california', ['shapefiles', 'renderAll.js', 'build/tiles.json'], { async: 
 });
 
 desc('package and upload GeoJSON files to S3');
-task('package-geoJSON', [], () => {
+task('package-geojson', [], () => {
   let tarBinary = 'tar';
 
   execSync('tar --version', (err, stdout) => {
