@@ -89,10 +89,12 @@ task('package-geojson', [], () => {
 task('shapefiles', [
   'shapefiles/114_congress',
   'shapefiles/usa_states',
+  'shapefiles/usa_states_land',
   'shapefiles/countries',
   'shapefiles/sldl',
   'shapefiles/sldu',
   'shapefiles/county',
+  'shapefiles/county_land',
 ]);
 
 desc('clean up build residuals');
@@ -117,6 +119,15 @@ file('shapefiles/usa_states', { async: true }, () => {
     'bash -c "wget -O- http://dds.cr.usgs.gov/pub/data/nationalatlas/statesp010g.shp_nt00938.tar.gz ' +
       '| tar xz -C ' + tempdir + '"',
     'mv ' + tempdir + ' shapefiles/usa_states',
+  ], { printStdout: true, printStderr: true }, complete);
+});
+
+file('shapefiles/usa_states_land', ['shapefiles/usa_states'], { async: true }, () => {
+  const tempdir = temp.mkdirSync('maps');
+  jake.exec([
+    'bash -c "$(npm bin)/mapshaper -i shapefiles/usa_states/statesp010g.shp ' +
+      '-filter \'TYPE == \\"Land\\"\' -o ' + tempdir + '"',
+    'mv ' + tempdir + ' shapefiles/usa_states_land',
   ], { printStdout: true, printStderr: true }, complete);
 });
 
@@ -201,6 +212,16 @@ file('shapefiles/county', { async: true }, () => {
     'mv ' + tempdir + ' shapefiles/county'
   ], { printStdout: true, printStderr: true }, complete);
 });
+
+file('shapefiles/county_land',
+  ['shapefiles/county', 'shapefiles/usa_states_land'], { async: true }, () => {
+    const tempdir = temp.mkdirSync('maps');
+    jake.exec([
+      'bash -c "$(npm bin)/mapshaper -i shapefiles/county/tl_2014_us_county.shp ' +
+        '-clip shapefiles/usa_states_land/statesp010g.shp remove-slivers -o ' + tempdir + '"',
+      'mv ' + tempdir + ' shapefiles/county_land',
+    ], { printStdout: true, printStderr: true }, complete);
+  });
 
 // County Subdivisions: some OCD "places" / incorporated towns are represented
 // in the census datasets as "County Subdivisions":

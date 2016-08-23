@@ -34,11 +34,7 @@
     </Datasource>
   </Layer>
 
-  <!--
-    src-atop: only draw where we intersect with the existing render. This fixes
-    district lines that extend out into the sea and become unrecognizable.
-  -->
-  <Style name="county" comp-op="src-atop">
+  <Style name="county">
     <Rule>
       <PolygonSymbolizer fill="#ebebeb" />
     </Rule>

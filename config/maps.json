@@ -52,7 +52,7 @@
     }
   },
   "county": {
-    "shapefile": "shapefiles/county/*.shp",
+    "shapefile": "shapefiles/county_land/*.shp",
     "render_each": ["GEOID"],
     "levels": ["local"],
     "overrides": {
