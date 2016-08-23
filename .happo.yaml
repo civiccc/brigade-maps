@@ -1,0 +1,8 @@
+source_files:
+  - test/happo/examples.js
+stylesheets: []
+snapshots_folder: build/_happo_snapshots
+viewports:
+  large:
+    width: 1024
+    height: 768
