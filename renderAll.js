@@ -68,10 +68,10 @@ const renderTile = function(tile) {
 };
 exports.renderTile = renderTile;
 
-exports.renderAll = function(filterTile) {
+exports.renderAll = function(filterOcdid) {
   const tiles = JSON.parse(fs.readFileSync('build/tiles.json'));
   tiles.forEach(function(tile) {
-    if (filterTile && tile.xmlPath.indexOf(filterTile) === -1) {
+    if (filterOcdid && tile.ocdid && tile.ocdid.indexOf(filterOcdid) !== -1) {
       return;
     }
 

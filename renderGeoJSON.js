@@ -6,7 +6,7 @@ const spawn = require('child_process').spawnSync;
 const buildConfig = require('./lib/buildConfig')();
 const ocdidMappingProcessor = require('./lib/ocdidMappingProcessor');
 
-module.exports = function() {
+module.exports = function(filterOcdid) {
   buildConfig.eachMap((mapName, mapConfig) => {
     console.log('Generating GeoJSON files for ' + mapName);
 
@@ -18,7 +18,7 @@ module.exports = function() {
       const renderAttributes = mapConfig.render_each.map((attr) => datum[attr]);
       const ocdid = ocdidMappingProcessor.getTileOCDID(renderAttributes, mapName);
 
-      if (!ocdid) {
+      if (!ocdid || (filterOcdid && ocdid !== filterOcdid)) {
         return;
       }
 

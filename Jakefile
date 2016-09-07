@@ -10,10 +10,14 @@ desc('Render all maps');
 task('render', ['shapefiles', 'renderAll.js', 'build/tiles.json', 'renderGeoJSON.js'], () => {
   const renderGeoJSON = require('./renderGeoJSON.js');
   const renderAll = require('./renderAll.js').renderAll;
-  const filterTile = process.env.only;
+  const filterOcdid = process.env.only;
 
-  renderGeoJSON(filterTile);
-  renderAll(filterTile);
+  if (filterOcdid) {
+    console.log('Filtering render to ONLY: ', filterOcdid);
+  }
+
+  renderGeoJSON(filterOcdid);
+  renderAll(filterOcdid);
 });
 
 desc('Build list of tiles to render');
