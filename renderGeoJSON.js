@@ -13,6 +13,9 @@ module.exports = function(filterOcdid) {
     // load the OCDID translations for this map
     ocdidMappingProcessor.generateOcdIdMaps(mapName, mapConfig);
 
+    const simplifyLevel = mapConfig.geojson_simplify || '0.04'; // 4% of original features
+    const precisionLevel = mapConfig.geojson_precision || 0.0001;
+
     mapConfig.eachFeature(feature => {
       const datum = feature.attributes();
       const renderAttributes = mapConfig.render_each.map((attr) => datum[attr]);
@@ -24,8 +27,8 @@ module.exports = function(filterOcdid) {
 
       fs.writeFileSync('build/tmp.json', feature.geometry().toJSON());
       const simplify = spawn('node_modules/.bin/mapshaper',
-        ['-i', 'build/tmp.json', '-simplify', 'visvalingam', '10%',
-         '-o', 'build/tmp.json', 'force', 'precision=0.0001']
+        ['-i', 'build/tmp.json', '-simplify', 'visvalingam', simplifyLevel,
+         '-o', 'build/tmp.json', 'force', 'precision=' + precisionLevel]
       );
 
       if (simplify.status !== 0) {
