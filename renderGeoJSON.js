@@ -43,7 +43,11 @@ module.exports = function(filterOcdid) {
       //
       // So, let's just grab the first geometry object.
       const justGeometry = JSON.parse(fs.readFileSync('build/tmp.json')).geometries[0];
-      fs.writeFileSync('build/tmp.json', JSON.stringify(justGeometry));
+      if (!justGeometry) {
+        console.error('ERROR processing ' + ocdid + ': empty geometry');
+      } else {
+        fs.writeFileSync('build/tmp.json', JSON.stringify(justGeometry));
+      }
 
       buildConfig.moveToOCDID('build/tmp.json', ocdid, 'geojson');
     });
