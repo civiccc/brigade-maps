@@ -53,9 +53,11 @@
 18151,ocd-division/country:us/state:in/county:steuben
 48361,ocd-division/country:us/state:tx/county:orange
 39047,ocd-division/country:us/state:oh/county:fayette
+25015,ocd-division/country:us/state:ma/county:hampshire
 21003,ocd-division/country:us/state:ky/county:allen
 37001,ocd-division/country:us/state:nc/county:alamance
 20073,ocd-division/country:us/state:ks/county:greenwood
+25025,ocd-division/country:us/state:ma/county:suffolk
 16051,ocd-division/country:us/state:id/county:jefferson
 48177,ocd-division/country:us/state:tx/county:gonzales
 47115,ocd-division/country:us/state:tn/county:marion
@@ -83,6 +85,7 @@
 41013,ocd-division/country:us/state:or/county:crook
 50011,ocd-division/country:us/state:vt/county:franklin
 26103,ocd-division/country:us/state:mi/county:marquette
+09007,ocd-division/country:us/state:ct/county:middlesex
 37057,ocd-division/country:us/state:nc/county:davidson
 17025,ocd-division/country:us/state:il/county:clay
 29103,ocd-division/country:us/state:mo/county:knox
@@ -521,6 +524,7 @@
 39015,ocd-division/country:us/state:oh/county:brown
 47141,ocd-division/country:us/state:tn/county:putnam
 38101,ocd-division/country:us/state:nd/county:ward
+25027,ocd-division/country:us/state:ma/county:worcester
 39091,ocd-division/country:us/state:oh/county:logan
 06031,ocd-division/country:us/state:ca/county:kings
 06073,ocd-division/country:us/state:ca/county:san_diego
@@ -650,6 +654,7 @@
 54061,ocd-division/country:us/state:wv/county:monongalia
 39033,ocd-division/country:us/state:oh/county:crawford
 12027,ocd-division/country:us/state:fl/county:desoto
+09011,ocd-division/country:us/state:ct/county:new_london
 39059,ocd-division/country:us/state:oh/county:guernsey
 26015,ocd-division/country:us/state:mi/county:barry
 29209,ocd-division/country:us/state:mo/county:stone
@@ -685,6 +690,7 @@
 20149,ocd-division/country:us/state:ks/county:pottawatomie
 26075,ocd-division/country:us/state:mi/county:jackson
 48091,ocd-division/country:us/state:tx/county:comal
+25019,ocd-division/country:us/state:ma/county:nantucket
 45009,ocd-division/country:us/state:sc/county:bamberg
 48007,ocd-division/country:us/state:tx/county:aransas
 13019,ocd-division/country:us/state:ga/county:berrien
@@ -950,6 +956,7 @@
 45059,ocd-division/country:us/state:sc/county:laurens
 56011,ocd-division/country:us/state:wy/county:crook
 55117,ocd-division/country:us/state:wi/county:sheboygan
+25013,ocd-division/country:us/state:ma/county:hampden
 48055,ocd-division/country:us/state:tx/county:caldwell
 20029,ocd-division/country:us/state:ks/county:cloud
 06027,ocd-division/country:us/state:ca/county:inyo
@@ -1002,6 +1009,7 @@
 48369,ocd-division/country:us/state:tx/county:parmer
 40151,ocd-division/country:us/state:ok/county:woods
 21063,ocd-division/country:us/state:ky/county:elliott
+25003,ocd-division/country:us/state:ma/county:berkshire
 29041,ocd-division/country:us/state:mo/county:chariton
 08103,ocd-division/country:us/state:co/county:rio_blanco
 08087,ocd-division/country:us/state:co/county:morgan
@@ -1105,6 +1113,7 @@
 54047,ocd-division/country:us/state:wv/county:mcdowell
 54033,ocd-division/country:us/state:wv/county:harrison
 37077,ocd-division/country:us/state:nc/county:granville
+09009,ocd-division/country:us/state:ct/county:new_haven
 31139,ocd-division/country:us/state:ne/county:pierce
 13023,ocd-division/country:us/state:ga/county:bleckley
 13033,ocd-division/country:us/state:ga/county:burke
@@ -1191,6 +1200,7 @@
 48457,ocd-division/country:us/state:tx/county:tyler
 47175,ocd-division/country:us/state:tn/county:van_buren
 40125,ocd-division/country:us/state:ok/county:pottawatomie
+09013,ocd-division/country:us/state:ct/county:tolland
 35053,ocd-division/country:us/state:nm/county:socorro
 13003,ocd-division/country:us/state:ga/county:atkinson
 12031,ocd-division/country:us/state:fl/county:duval
@@ -1283,6 +1293,7 @@
 39135,ocd-division/country:us/state:oh/county:preble
 39079,ocd-division/country:us/state:oh/county:jackson
 48201,ocd-division/country:us/state:tx/county:harris
+25017,ocd-division/country:us/state:ma/county:middlesex
 72145,ocd-division/country:us/territory:pr/municipio:vega_baja
 48115,ocd-division/country:us/state:tx/county:dawson
 36069,ocd-division/country:us/state:ny/county:ontario
@@ -1299,6 +1310,7 @@
 13163,ocd-division/country:us/state:ga/county:jefferson
 55083,ocd-division/country:us/state:wi/county:oconto
 48347,ocd-division/country:us/state:tx/county:nacogdoches
+44009,ocd-division/country:us/state:ri/county:washington
 53047,ocd-division/country:us/state:wa/county:okanogan
 53063,ocd-division/country:us/state:wa/county:spokane
 55041,ocd-division/country:us/state:wi/county:forest
@@ -1352,6 +1364,8 @@
 23027,ocd-division/country:us/state:me/county:waldo
 24027,ocd-division/country:us/state:md/county:howard
 49035,ocd-division/country:us/state:ut/county:salt_lake
+09003,ocd-division/country:us/state:ct/county:hartford
+09015,ocd-division/country:us/state:ct/county:windham
 12087,ocd-division/country:us/state:fl/county:monroe
 39157,ocd-division/country:us/state:oh/county:tuscarawas
 36085,ocd-division/country:us/state:ny/county:richmond
@@ -1587,6 +1601,7 @@
 55119,ocd-division/country:us/state:wi/county:taylor
 27099,ocd-division/country:us/state:mn/county:mower
 27101,ocd-division/country:us/state:mn/county:murray
+44007,ocd-division/country:us/state:ri/county:providence
 29161,ocd-division/country:us/state:mo/county:phelps
 28117,ocd-division/country:us/state:ms/county:prentiss
 21235,ocd-division/country:us/state:ky/county:whitley
@@ -1989,6 +2004,7 @@
 48405,ocd-division/country:us/state:tx/county:san_augustine
 32029,ocd-division/country:us/state:nv/county:storey
 13249,ocd-division/country:us/state:ga/county:schley
+09001,ocd-division/country:us/state:ct/county:fairfield
 48313,ocd-division/country:us/state:tx/county:madison
 06077,ocd-division/country:us/state:ca/county:san_joaquin
 28159,ocd-division/country:us/state:ms/county:winston
@@ -2136,6 +2152,7 @@
 48071,ocd-division/country:us/state:tx/county:chambers
 13239,ocd-division/country:us/state:ga/county:quitman
 48199,ocd-division/country:us/state:tx/county:hardin
+09005,ocd-division/country:us/state:ct/county:litchfield
 39143,ocd-division/country:us/state:oh/county:sandusky
 23021,ocd-division/country:us/state:me/county:piscataquis
 17153,ocd-division/country:us/state:il/county:pulaski
@@ -2725,6 +2742,7 @@
 47051,ocd-division/country:us/state:tn/county:franklin
 22029,ocd-division/country:us/state:la/parish:concordia
 22063,ocd-division/country:us/state:la/parish:livingston
+25009,ocd-division/country:us/state:ma/county:essex
 46019,ocd-division/country:us/state:sd/county:butte
 08035,ocd-division/country:us/state:co/county:douglas
 45079,ocd-division/country:us/state:sc/county:richland
@@ -2754,6 +2772,7 @@
 46093,ocd-division/country:us/state:sd/county:meade
 18097,ocd-division/country:us/state:in/county:marion
 05017,ocd-division/country:us/state:ar/county:chicot
+13021,ocd-division/country:us/state:ga/county:bibb
 72059,ocd-division/country:us/territory:pr/municipio:guayanilla
 72131,ocd-division/country:us/territory:pr/municipio:san_sebastián
 05115,ocd-division/country:us/state:ar/county:pope
@@ -2839,7 +2858,9 @@
 19069,ocd-division/country:us/state:ia/county:franklin
 13035,ocd-division/country:us/state:ga/county:butts
 08039,ocd-division/country:us/state:co/county:elbert
+44001,ocd-division/country:us/state:ri/county:bristol
 48035,ocd-division/country:us/state:tx/county:bosque
+44005,ocd-division/country:us/state:ri/county:newport
 39045,ocd-division/country:us/state:oh/county:fairfield
 38069,ocd-division/country:us/state:nd/county:pierce
 17015,ocd-division/country:us/state:il/county:carroll
@@ -3122,11 +3143,13 @@
 19029,ocd-division/country:us/state:ia/county:cass
 39107,ocd-division/country:us/state:oh/county:mercer
 21115,ocd-division/country:us/state:ky/county:johnson
+44003,ocd-division/country:us/state:ri/county:kent
 50025,ocd-division/country:us/state:vt/county:windham
 50019,ocd-division/country:us/state:vt/county:orleans
 20085,ocd-division/country:us/state:ks/county:jackson
 22041,ocd-division/country:us/state:la/parish:franklin
 28155,ocd-division/country:us/state:ms/county:webster
+25011,ocd-division/country:us/state:ma/county:franklin
 31031,ocd-division/country:us/state:ne/county:cherry
 30001,ocd-division/country:us/state:mt/county:beaverhead
 29143,ocd-division/country:us/state:mo/county:new_madrid
