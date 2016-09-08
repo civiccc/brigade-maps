@@ -2,6 +2,7 @@
 
 /* global desc task file complete jake */
 const temp = require('temp');
+const path = require('path');
 const execSync = require('child_process').execSync;
 
 temp.track(); // automatically cleanup temp dirs on exit
@@ -95,8 +96,8 @@ task('shapefiles', [
   'shapefiles/usa_states',
   'shapefiles/usa_states_land',
   'shapefiles/countries',
-  'shapefiles/sldl',
-  'shapefiles/sldu',
+  'shapefiles/sldl_land',
+  'shapefiles/sldu_land',
   'shapefiles/county',
   'shapefiles/county_land',
 ]);
@@ -147,45 +148,35 @@ file('shapefiles/countries', { async: true }, () => {
   ], { printStdout: true, printStderr: true }, complete);
 });
 
-file('shapefiles/sldl', { async: true }, () => {
-  // This takes several minutes; you may be better off downloading with a real
-  // ftp client
+file('shapefiles/sldl_land', ['shapefiles/usa_states_land'], { async: true }, () => {
   const tempdir = temp.mkdirSync('maps');
+  const landShapefile = path.resolve('shapefiles/usa_states_land/statesp010g.shp');
   jake.exec([
     'bash -c "' +
       'cd ' + tempdir + ' && ' +
       'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDL && ' +
       'unzip ./\*.zip && ' +
       'rm ./*.zip"',
-    'mv ' + tempdir + ' shapefiles/sldl'
+    'bash -c "cd ' + tempdir + ' && for FILE in *.shp; do ' +
+        `$(npm bin)/mapshaper -i \\$FILE -clip ${landShapefile} remove-slivers -o force \\$FILE;` +
+      'done"',
+    'mv ' + tempdir + ' shapefiles/sldl_land'
   ], { printStdout: true, printStderr: true }, complete);
 });
 
-file('shapefiles/sldl', { async: true }, () => {
-  // This takes several minutes; you may be better off downloading with a real
-  // ftp client
+file('shapefiles/sldu_land', { async: true }, () => {
   const tempdir = temp.mkdirSync('maps');
-  jake.exec([
-    'bash -c "' +
-      'cd ' + tempdir + ' && ' +
-      'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDL && ' +
-      'unzip ./\*.zip && ' +
-      'rm ./*.zip"',
-    'mv ' + tempdir + ' shapefiles/sldl'
-  ], { printStdout: true, printStderr: true }, complete);
-});
-
-file('shapefiles/sldu', { async: true }, () => {
-  // This takes several minutes; you may be better off downloading with a real
-  // ftp client
-  const tempdir = temp.mkdirSync('maps');
+  const landShapefile = path.resolve('shapefiles/usa_states_land/statesp010g.shp');
   jake.exec([
     'bash -c "' +
       'cd ' + tempdir + ' && ' +
       'wget -r -nH --cut-dirs=4 -nc ftp://ftp2.census.gov/geo/tiger/TIGER2014/SLDU && ' +
       'unzip ./\*.zip && ' +
       'rm ./*.zip"',
-    'mv ' + tempdir + ' shapefiles/sldl'
+    'bash -c "cd ' + tempdir + ' && for FILE in *.shp; do ' +
+        `$(npm bin)/mapshaper -i \\$FILE -clip ${landShapefile} remove-slivers -o force \\$FILE;` +
+      'done"',
+    'mv ' + tempdir + ' shapefiles/sldu_land'
   ], { printStdout: true, printStderr: true }, complete);
 });
 

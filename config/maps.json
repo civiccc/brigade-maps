@@ -35,7 +35,7 @@
     }
   },
   "sldl": {
-    "shapefile": "shapefiles/sldl/*.shp",
+    "shapefile": "shapefiles/sldl_land/*.shp",
     "render_each": ["GEOID"],
     "levels": ["state"],
     "overrides": {
@@ -44,7 +44,7 @@
     }
   },
   "sldu": {
-    "shapefile": "shapefiles/sldu/*.shp",
+    "shapefile": "shapefiles/sldu_land/*.shp",
     "render_each": ["GEOID"],
     "levels": ["state"],
     "overrides": {
