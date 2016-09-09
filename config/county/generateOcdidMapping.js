@@ -35,6 +35,7 @@ var shapefiles = glob.sync('shapefiles/county/*.shp');
 // 'M': Active legal real property entity with quasi-legal functions
 // 'T': Active state-recognized entity
 // 'N': Nonfunctioning legal entity
+// 'S': Statistical entity
 //
 // Not including:
 // 'E': Active government providing special-purpose functions
@@ -45,8 +46,7 @@ var shapefiles = glob.sync('shapefiles/county/*.shp');
 //      special-purpose functions
 // 'L': Inactive, nonfunctioning legal real property entity with potential
 //      quasi-legal administrative functions
-// 'S': Statistical entity
-var validStatus = (funcstat) => ('ABCMNT'.indexOf(funcstat) != -1);
+var validStatus = (funcstat) => ('ABCMNTS'.indexOf(funcstat) != -1);
 
 for (shapefile of shapefiles) {
   for (feature of listShapefileFeatures(shapefile)) {
