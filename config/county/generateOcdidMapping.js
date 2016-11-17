@@ -36,17 +36,17 @@ var shapefiles = glob.sync('shapefiles/county/*.shp');
 // 'T': Active state-recognized entity
 // 'N': Nonfunctioning legal entity
 // 'S': Statistical entity
+// 'F': Fictitious entity created to fill the Census Bureau geographic
+//      hierarchy
 //
 // Not including:
 // 'E': Active government providing special-purpose functions
-// 'F': Fictitious entity created to fill the Census Bureau geographic
-//      hierarchy
 // 'G': Active government that is subordinate to another unit of government
 // 'I': Inactive governmental unit that has the power to provide primary
 //      special-purpose functions
 // 'L': Inactive, nonfunctioning legal real property entity with potential
 //      quasi-legal administrative functions
-var validStatus = (funcstat) => ('ABCMNTS'.indexOf(funcstat) != -1);
+var validStatus = (funcstat) => ('ABCFMNTS'.indexOf(funcstat) != -1);
 
 for (shapefile of shapefiles) {
   for (feature of listShapefileFeatures(shapefile)) {
