@@ -98,6 +98,7 @@ task('shapefiles', [
   'shapefiles/countries',
   'shapefiles/sldl_land',
   'shapefiles/sldu_land',
+  'shapefiles/place',
   'shapefiles/county',
   'shapefiles/county_land',
 ]);
